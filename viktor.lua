@@ -207,7 +207,7 @@ local function do_harass()
 			end
 		end
 		
-		target = selector:find_target(1180, health)
+		target = selector:find_target(1150, health)
 	
 		if target:object_id() ~= 0 then
 			if spellbook:can_cast(SLOT_E) then
@@ -216,7 +216,7 @@ local function do_harass()
 				x, y, z = origin[1], origin[2], origin[3]
 				x1, y1, z1 = my_origin[1], my_origin[2], my_origin[3]
 				
-				calc = vector_math:add_to_direction(x1, y1, z1, x, y, z, 525)
+				calc = vector_math:add_to_direction(x1, y, z1, x, y, z, 450)
 				pred_output = pred:predict(1050, 0, 680, 80, target, true, calc)
 
 				if pred_output:can_cast() then
