@@ -123,7 +123,7 @@ local function do_combo()
 				x1, y1, z1 = my_origin[1], my_origin[2], my_origin[3]
 				
 				calc = vector_math:add_to_direction(x1, y, z1, x, y, z, 450)
-				pred_output = pred:predict(1050, 0, 680, 80, target, true, calc)
+				pred_output = pred:predict(1050, 0, 680, 80, target, true, false, calc)
 
 				if pred_output:can_cast() then
 					cast_pos = pred_output:cast_pos()
@@ -217,7 +217,7 @@ local function do_harass()
 				x1, y1, z1 = my_origin[1], my_origin[2], my_origin[3]
 				
 				calc = vector_math:add_to_direction(x1, y, z1, x, y, z, 450)
-				pred_output = pred:predict(1050, 0, 680, 80, target, true, calc)
+				pred_output = pred:predict(1050, 0, 680, 80, target, true, false, calc)
 
 				if pred_output:can_cast() then
 					cast_pos = pred_output:cast_pos()
@@ -315,5 +315,13 @@ local function on_draw()
 	end
 end
 
+local function on_level(level)
+	if level < 19 then
+		spell_order = {0, 2, 2, 1, 2, 3, 2, 0, 2, 0, 3, 0, 0, 1, 1, 3, 1, 1}
+		--spellbook:level_spell_slot(spell_order[level])
+	end
+end
+
+client:set_event_callback("on_level", on_level)
 client:set_event_callback("on_tick", on_tick)
 client:set_event_callback("on_draw", on_draw)
