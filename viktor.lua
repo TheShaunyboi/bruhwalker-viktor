@@ -1,4 +1,4 @@
-if game:get_local_player():champ_name() ~= "Viktor" then
+if game.local_player.champ_name ~= "Viktor" then
 	return
 end
 
@@ -34,34 +34,34 @@ local function do_combo()
 		target = selector:find_target(850, health)
 		is_r_active = false
 		
-		pets = game:get_pets()
+		pets = game.pets
 
 		for _, v in ipairs(pets) do
-			champ_name = v:champ_name()
+			champ_name = v.champ_name
 			
 			if champ_name == "ViktorSingularity" then 
-				owner = v:get_owner()
+				owner = v.owner
 
-				if owner:object_id() == local_player:object_id() and v:is_alive() then
+				if owner.object_id == local_player.object_id and v.is_alive then
 					is_r_active = true
 				end 
 			end
 		end
 		
-		if target:object_id() ~= 0 and target:health_percentage() <= menu:get_value(viktor_use_r2_hp) then
-			if not is_r_active and not game:get_local_player():has_buff("viktorchaosstormtimer") then
-				origin = target:origin()
-				my_origin = game:get_local_player():origin()
-				distance = vector_math:distance(origin[1], origin[2], origin[3], my_origin[1], my_origin[2], my_origin[3])
+		if target.object_id ~= 0 and target:health_percentage() <= menu:get_value(viktor_use_r2_hp) then
+			if not is_r_active and not game.local_player:has_buff("viktorchaosstormtimer") then
+				origin = target.origin
+				my_origin = game.local_player.origin
+				distance = vector_math:distance(origin.x, origin.y, origin.z, my_origin.x, my_origin.y, my_origin.z)
 
 				if distance > 700 then
-					calc = vector_math:add_to_direction(my_origin[1], my_origin[2], my_origin[3], origin[1], origin[2], origin[3], 700)
-					origin[1] = calc:x()
-					origin[2] = calc:y()
-					origin[3] = calc:z()
+					calc = vector_math:add_to_direction(my_origin.x, my_origin.y, my_origin.z, origin.x, origin.y, origin.z, 700)
+					origin.x = calc.x
+					origin.y = calc.y
+					origin.z = calc.z
 				end
 
-				spellbook:cast_spell(SLOT_R, 0.35, origin[1], origin[2], origin[3])
+				spellbook:cast_spell(SLOT_R, 0.35, origin.x, origin.y, origin.z)
 			end
 		end
 	end
@@ -69,10 +69,10 @@ local function do_combo()
 	if menu:get_value(viktor_use_q) == 1 then
 		target = selector:find_target(650, health)
 	
-		if target:object_id() ~= 0 then
+		if target.object_id ~= 0 then
 			if spellbook:can_cast(SLOT_Q) then
-				origin = target:origin()
-				x, y, z = origin[1], origin[2], origin[3]
+				origin = target.origin
+				x, y, z = origin.x, origin.y, origin.z
 				spellbook:cast_spell(SLOT_Q, 0.35, x, y, z)
 			end
 		end
@@ -81,16 +81,15 @@ local function do_combo()
 	if menu:get_value(viktor_use_w) == 1 then
 		target = selector:find_target(800, health)
 	
-		if target:object_id() ~= 0 then
+		if target.object_id ~= 0 then
 			if spellbook:can_cast(SLOT_W) then
-				origin = target:origin()
-				x, y, z = origin[1], origin[2], origin[3]
-				pred_output = pred:predict(0, 1.0, 800, 300, target, true)
+				origin = target.origin
+				x, y, z = origin.x, origin.y, origin.z
 
-				if pred_output:can_cast() then
-					cast_pos = pred_output:cast_pos()
+				if pred_output.can_cast then
+					cast_pos = pred_output.cast_pos
 					
-					spellbook:cast_spell(SLOT_W, 0.35, cast_pos:x(), cast_pos:y(), cast_pos:z())
+					spellbook:cast_spell(SLOT_W, 0.35, cast_pos.x, cast_pos.y, cast_pos.z)
 				end
 			end
 		end
@@ -99,35 +98,35 @@ local function do_combo()
 	if menu:get_value(viktor_use_e) == 1 then
 		target = selector:find_target(525, health)
 	
-		if target:object_id() ~= 0 then
+		if target.object_id ~= 0 then
 			if spellbook:can_cast(SLOT_E) then
-				origin = target:origin()
-				x, y, z = origin[1], origin[2], origin[3]
-				my_origin = game:get_local_player():origin()
+				origin = target.origin
+				x, y, z = origin.x, origin.y, origin.z
+				my_origin = game.local_player.origin
 				pred_output = pred:predict(1050, 0, 525, 80, target, true)
 
-				if pred_output:can_cast() then
-					cast_pos = pred_output:cast_pos()
-					spellbook:cast_spell(SLOT_E, 0.35, cast_pos:x(), cast_pos:y(), cast_pos:z())
+				if pred_output.can_cast then
+					cast_pos = pred_output.cast_pos
+					spellbook:cast_spell(SLOT_E, 0.35, cast_pos.x, cast_pos.y, cast_pos.z)
 				end
 			end
 		end
 		
 		target = selector:find_target(1150, health)
 	
-		if target:object_id() ~= 0 then
+		if target.object_id ~= 0 then
 			if spellbook:can_cast(SLOT_E) then
-				origin = target:origin()
-				my_origin = game:get_local_player():origin()
-				x, y, z = origin[1], origin[2], origin[3]
-				x1, y1, z1 = my_origin[1], my_origin[2], my_origin[3]
+				origin = target.origin
+				my_origin = game.local_player.origin
+				x, y, z = origin.x, origin.y, origin.z
+				x1, y1, z1 = my_origin.x, my_origin.y, my_origin.z
 				
 				calc = vector_math:add_to_direction(x1, y, z1, x, y, z, 450)
 				pred_output = pred:predict(1050, 0, 680, 80, target, true, false, calc)
 
-				if pred_output:can_cast() then
-					cast_pos = pred_output:cast_pos()
-					spellbook:cast_spell(SLOT_E, 0.35, cast_pos:x(), cast_pos:y(), cast_pos:z(), calc:x(), calc:y(), calc:z())
+				if pred_output.can_cast then
+					cast_pos = pred_output.cast_pos
+					spellbook:cast_spell(SLOT_E, 0.35, cast_pos.x, cast_pos.y, cast_pos.z, calc.x, calc.y, calc.z)
 				end
 			end
 		end
@@ -137,24 +136,24 @@ local function do_combo()
 		target = selector:find_target(2000, health)
 		is_r_active = false
 		
-		pets = game:get_pets()
+		pets = game.pets
 
 		for _, v in ipairs(pets) do
-			champ_name = v:champ_name()
+			champ_name = v.champ_name
 			
 			if champ_name == "ViktorSingularity" then 
-				owner = v:get_owner()
+				owner = v.owner
 
-				if owner:object_id() == local_player:object_id() and v:is_alive() then
+				if owner.object_id == local_player.object_id and v.is_alive then
 					is_r_active = true
 				end 
 			end
 		end
 		
-		if target:object_id() ~= 0 then
-			if is_r_active and not target:has_buff("ViktorChaosStormGuide") and game:get_local_player():has_buff("viktorchaosstormtimer") then
-				origin = target:origin()
-				spellbook:cast_spell(SLOT_R, 0.35, origin[1], origin[2], origin[3])
+		if target.object_id ~= 0 then
+			if is_r_active and not target:has_buff("ViktorChaosStormGuide") and game.local_player:has_buff("viktorchaosstormtimer") then
+				origin = target.origin
+				spellbook:cast_spell(SLOT_R, 0.35, origin.x, origin.y, origin.z)
 			end
 		end
 	end
@@ -164,10 +163,10 @@ local function do_harass()
 	if menu:get_value(viktor_harass_use_q) == 1 then
 		target = selector:find_target(650, health)
 	
-		if target:object_id() ~= 0 then
+		if target.object_id ~= 0 then
 			if spellbook:can_cast(SLOT_Q) then
-				origin = target:origin()
-				x, y, z = origin[1], origin[2], origin[3]
+				origin = target.origin
+				x, y, z = origin.x, origin.y, origin.z
 				spellbook:cast_spell(SLOT_Q, 0.35, x, y, z)
 			end
 		end
@@ -176,15 +175,15 @@ local function do_harass()
 	if menu:get_value(viktor_harass_use_w) == 1 then
 		target = selector:find_target(800, health)
 	
-		if target:object_id() ~= 0 then
+		if target.object_id ~= 0 then
 			if spellbook:can_cast(SLOT_W) then
-				origin = target:origin()
-				x, y, z = origin[1], origin[2], origin[3]
+				origin = target.origin
+				x, y, z = origin.x, origin.y, origin.z
 				pred_output = pred:predict(0, 1.0, 800, 300, target, true)
 
-				if pred_output:can_cast() then
-					cast_pos = pred_output:cast_pos()
-					spellbook:cast_spell(SLOT_W, 0.35, cast_pos:x(), cast_pos:y(), cast_pos:z())
+				if pred_output.can_cast then
+					cast_pos = pred_output.cast_pos
+					spellbook:cast_spell(SLOT_W, 0.35, cast_pos.x, cast_pos.y, cast_pos.z)
 				end
 			end
 		end
@@ -193,35 +192,35 @@ local function do_harass()
 	if menu:get_value(viktor_harass_use_e) == 1 then
 		target = selector:find_target(525, health)
 	
-		if target:object_id() ~= 0 then
+		if target.object_id ~= 0 then
 			if spellbook:can_cast(SLOT_E) then
-				origin = target:origin()
-				x, y, z = origin[1], origin[2], origin[3]
-				my_origin = game:get_local_player():origin()
+				origin = target.origin
+				x, y, z = origin.x, origin.y, origin.z
+				my_origin = game.local_player.origin
 				pred_output = pred:predict(1050, 0, 525, 80, target, true)
 
-				if pred_output:can_cast() then
-					cast_pos = pred_output:cast_pos()
-					spellbook:cast_spell(SLOT_E, 0.35, cast_pos:x(), cast_pos:y(), cast_pos:z())
+				if pred_output.can_cast then
+					cast_pos = pred_output.cast_pos
+					spellbook:cast_spell(SLOT_E, 0.35, cast_pos.x, cast_pos.y, cast_pos.z)
 				end
 			end
 		end
 		
 		target = selector:find_target(1150, health)
 	
-		if target:object_id() ~= 0 then
+		if target.object_id ~= 0 then
 			if spellbook:can_cast(SLOT_E) then
-				origin = target:origin()
-				my_origin = game:get_local_player():origin()
-				x, y, z = origin[1], origin[2], origin[3]
-				x1, y1, z1 = my_origin[1], my_origin[2], my_origin[3]
+				origin = target.origin
+				my_origin = game.local_player.origin
+				x, y, z = origin.x, origin.y, origin.z
+				x1, y1, z1 = my_origin.x, my_origin.y, my_origin.z
 				
 				calc = vector_math:add_to_direction(x1, y, z1, x, y, z, 450)
 				pred_output = pred:predict(1050, 0, 680, 80, target, true, false, calc)
 
-				if pred_output:can_cast() then
-					cast_pos = pred_output:cast_pos()
-					spellbook:cast_spell(SLOT_E, 0.35, cast_pos:x(), cast_pos:y(), cast_pos:z(), calc:x(), calc:y(), calc:z())
+				if pred_output.can_cast then
+					cast_pos = pred_output.cast_pos
+					spellbook:cast_spell(SLOT_E, 0.35, cast_pos.x, cast_pos.y, cast_pos.z, calc.x, calc.y, calc.z)
 				end
 			end
 		end
@@ -232,24 +231,24 @@ local function do_last_hit()
 	if menu:get_value(viktor_lasthit_use_q) == 1 then
 		if spellbook:can_cast(SLOT_Q) then
 			spell_slot = spellbook:get_spell_slot(0)
-			q_level = spell_slot:get_level()
+			q_level = spell_slot.level
 
 			if q_level > 0 then
 				dmg = {60, 75, 90, 105, 120}
 				
-				q_damage = dmg[q_level] + game:get_local_player():get_ability_power() * 0.4
+				q_damage = dmg[q_level] + game.local_player:get_ability_power() * 0.4
 				
 				target = selector:find_target_minion(650)
 
-				if target:object_id() ~= 0 then
+				if target.object_id ~= 0 then
 					missile_speed = 2000
 					cast_delay = 0.25
 					q_damage = target:calculate_magic_damage(q_damage)
 					time_to_attack = target:get_time_to_attack(missile_speed, cast_delay, false)
 
 					if target:can_last_hit(q_damage, time_to_attack, true) then
-						origin = target:origin()
-						x, y, z = origin[1], origin[2], origin[3]
+						origin = target.origin
+						x, y, z = origin.x, origin.y, origin.z
 						spellbook:cast_spell(SLOT_Q, 0.35, x, y, z)
 					end
 				end
@@ -273,11 +272,11 @@ local function on_tick()
 end
 
 local function on_draw()
-	local_player = game:get_local_player()
+	local_player = game.local_player
 
-	if local_player:object_id() ~= 0 then
-		origin = local_player:origin()
-		x, y, z = origin[1], origin[2], origin[3]
+	if local_player.object_id ~= 0 then
+		origin = local_player.origin
+		x, y, z = origin.x, origin.y, origin.z
 
 		if menu:get_value(viktor_draw_e) == 1 then
 			renderer:draw_circle(x, y, z, 525, 150, 150, 150, 150)
@@ -296,17 +295,17 @@ local function on_draw()
 			renderer:draw_circle(x, y, z, 700, 150, 150, 150, 150)
 		end
 		
-		pets = game:get_pets()
+		pets = game.pets
 
 		for _, v in ipairs(pets) do
-			champ_name = v:champ_name()
+			champ_name = v.champ_name
 			
 			if champ_name == "ViktorSingularity" then 
-				owner = v:get_owner()
+				owner = v.owner
 
-				if owner:object_id() == local_player:object_id() and v:is_alive() then
-					origin = v:origin()
-					x, y, z = origin[1], origin[2], origin[3]
+				if owner.object_id == local_player.object_id and v.is_alive then
+					origin = v.origin
+					x, y, z = origin.x, origin.y, origin.z
 
 					renderer:draw_circle(x, y, z, 300, 150, 150, 150, 150)
 				end 
