@@ -73,7 +73,7 @@ local function do_combo()
 			if spellbook:can_cast(SLOT_Q) then
 				origin = target.origin
 				x, y, z = origin.x, origin.y, origin.z
-				spellbook:cast_spell(SLOT_Q, 0.35, x, y, z)
+				spellbook:cast_spell_targetted(SLOT_Q, target, 0.35, x, y, z)
 			end
 		end
 	end
@@ -167,7 +167,7 @@ local function do_harass()
 			if spellbook:can_cast(SLOT_Q) then
 				origin = target.origin
 				x, y, z = origin.x, origin.y, origin.z
-				spellbook:cast_spell(SLOT_Q, 0.35, x, y, z)
+				spellbook:cast_spell_targetted(SLOT_Q, target, 0.35, x, y, z)
 			end
 		end
 	end
@@ -249,7 +249,7 @@ local function do_last_hit()
 					if target:can_last_hit(q_damage, time_to_attack, true) then
 						origin = target.origin
 						x, y, z = origin.x, origin.y, origin.z
-						spellbook:cast_spell(SLOT_Q, 0.35, x, y, z)
+						spellbook:cast_spell_targetted(SLOT_Q, target, 0.35, x, y, z)
 					end
 				end
 			end
