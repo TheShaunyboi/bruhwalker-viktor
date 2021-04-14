@@ -85,6 +85,7 @@ local function do_combo()
 			if spellbook:can_cast(SLOT_W) then
 				origin = target.origin
 				x, y, z = origin.x, origin.y, origin.z
+				pred_output = pred:predict(0, 1.0, 800, 300, target, true)
 
 				if pred_output.can_cast then
 					cast_pos = pred_output.cast_pos
