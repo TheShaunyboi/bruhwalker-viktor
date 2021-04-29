@@ -237,7 +237,7 @@ local function do_last_hit()
 			if q_level > 0 then
 				dmg = {60, 75, 90, 105, 120}
 				
-				q_damage = dmg[q_level] + game.local_player:get_ability_power() * 0.4
+				q_damage = dmg[q_level] + game.local_player.ability_power * 0.4
 				
 				target = selector:find_target_minion(650)
 
